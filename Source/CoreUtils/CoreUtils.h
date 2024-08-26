@@ -11,6 +11,8 @@
 #include "Extensions/Container.h"
 #include "Extensions/Math.h"
 #include "Templates/InlineArray.h"
+#include "Templates/TwoKeyMap.h"
+#include "Templates/NullableStruct.h"
 
 class FCoreUtilsModule : public IModuleInterface
 {

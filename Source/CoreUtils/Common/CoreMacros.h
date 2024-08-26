@@ -52,7 +52,7 @@
 
 // Info(不会输出到Console)
 #define LOG_INFO(CategoryName, Format, ...) \
-	PRINT_OBJ_LOG(CategoryName, Log, this, Format, ##__VA_ARGS__)
+	PRINT_OBJ_LOG(CategoryName, Verbose, this, Format, ##__VA_ARGS__)
 // Debug
 #define LOG_DEBUG(CategoryName, Format, ...) \
 	PRINT_OBJ_LOG(CategoryName, Display, this, Format, ##__VA_ARGS__)
@@ -91,6 +91,18 @@
 // C Error
 #define CLOG_ERROR(Condition, CategoryName, Format, ...) \
 	PRINT_OBJ_CLOG(Condition, CategoryName, Error, this, Format, ##__VA_ARGS__)
+// EX C Info
+#define CLOG_INFO_EX(Condition, Printer, CategoryName, Format, ...) \
+	PRINT_CLOG(Condition, CategoryName, Log, Printer, Format, ##__VA_ARGS__)
+// EX C Debug
+#define CLOG_DEBUG_EX(Condition, Printer, CategoryName, Format, ...) \
+	PRINT_CLOG(Condition, CategoryName, Display, Printer, Format, ##__VA_ARGS__)
+// EX C Warning
+#define CLOG_WARNING_EX(Condition, Printer, CategoryName, Format, ...) \
+	PRINT_CLOG(Condition, CategoryName, Warning, Printer, Format, ##__VA_ARGS__)
+// EX C Error
+#define CLOG_ERROR_EX(Condition, Printer, CategoryName, Format, ...) \
+	PRINT_CLOG(Condition, CategoryName, Error, Printer, Format, ##__VA_ARGS__)
 // Assert
 #define LOG_ASSERT(Condition, CategoryName, Format, ...) \
 	{ \

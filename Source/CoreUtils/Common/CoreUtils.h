@@ -25,6 +25,34 @@ namespace CoreUtils
 	FORCEINLINE static FString ToLogString(const AActor* InActor) { return GetNameSafe(InActor); }
 	FORCEINLINE static FString ToLogString(UActorComponent* InComponent) { return FString::Printf(TEXT("%s.%s"), *ToLogString(SafeGetOwner(InComponent)), *ToLogString(SafeGetClass(InComponent))); }
 	FORCEINLINE static FString ToLogString(const UActorComponent* InComponent) { return FString::Printf(TEXT("%s.%s"), *ToLogString(SafeGetOwner(InComponent)), *ToLogString(SafeGetClass(InComponent))); }
+
+	inline FString GetObjectNameWithOuter(const UObject* Object)
+	{
+		if (IsValid(Object))
+		{
+			UObject* StopOuter = nullptr;
+			const auto& Outer1 = Object->GetOuter();
+			if (IsValid(Outer1))
+			{
+				StopOuter = Outer1;
+				const auto& Outer2 = Outer1->GetOuter();
+				if (IsValid(Outer2))
+				{
+					StopOuter = Outer2;
+				}
+			}
+
+			if (IsValid(StopOuter))
+			{
+				return FString::Printf(TEXT("%s"), *Object->GetPathName(StopOuter));
+			}
+
+			return FString::Printf(TEXT("%s"), *Object->GetName());
+		}
+
+		return FString{TEXT("Null")};
+	}
+
 #pragma endregion
 
 #pragma region Search
