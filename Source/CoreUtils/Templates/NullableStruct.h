@@ -14,6 +14,9 @@ struct TNullableStruct
 	TNullableStruct(const TStruct& InValue) : bHasValue(true), Value(InValue) {}
 	TNullableStruct(TStruct&& InValue) : bHasValue(true), Value(MoveTempIfPossible(InValue)) {}
 
+	FORCEINLINE TNullableStruct& operator=(const TStruct& InValue) { Set(InValue); return *this; }
+	FORCEINLINE TNullableStruct& operator=(TStruct&& InValue) { bHasValue = true; Value = MoveTemp(InValue); return *this; }
+	
 	FORCEINLINE TStruct* operator->() { check(HasValue()); return &Value; }
 	FORCEINLINE const TStruct* operator->() const { check(HasValue()); return &Value; }
 	FORCEINLINE TStruct& operator*() { return Value; }
@@ -26,6 +29,9 @@ struct TNullableStruct
 	void Reset() { bHasValue = false; Value = TStruct(); }
 	
 private:
-	uint8 bHasValue:1;
+	/* has any value set */
+	bool bHasValue;
+	
+	/* value cache */
 	TStruct Value;
 };

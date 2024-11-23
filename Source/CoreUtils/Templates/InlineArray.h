@@ -18,7 +18,7 @@ public:
 	
 	FORCEINLINE TValue& operator[](std::size_t Index) { ensureAlways(IsValidIndex(Index)); return Array[Index]; }
 
-	FORCEINLINE bool IsValidIndex(const std::size_t Index) const { return Index >= static_cast<std::size_t>(0) && Index < ArrayNum; }
+	FORCEINLINE bool IsValidIndex(const std::size_t Index) const { return Index < ArrayNum; }
 
 	FORCEINLINE std::size_t Num() const { return ArrayNum; }
 	FORCEINLINE std::size_t Capacity() const { return SIZE; }
