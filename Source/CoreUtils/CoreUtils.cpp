@@ -2,11 +2,20 @@
 
 #include "CoreUtils.h"
 
+#include "AssetToolsModule.h"
+
 #define LOCTEXT_NAMESPACE "FCoreUtilsModule"
+
+EAssetTypeCategories::Type FCoreUtilsModule::ProjectAssetCategory = static_cast<EAssetTypeCategories::Type>(0);
 
 void FCoreUtilsModule::StartupModule()
 {
-	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	IAssetTools& AssetTools = FModuleManager::LoadModuleChecked<FAssetToolsModule>("AssetTools").Get();
+	if (ProjectAssetCategory == EAssetTypeCategories::None)
+	{
+		const FText AssetCategoryDisplayName = LOCTEXT("ProjectAssetCategory", "Project Asset");
+		ProjectAssetCategory = AssetTools.RegisterAdvancedAssetCategory(FName(TEXT("Project Asset")), AssetCategoryDisplayName);
+	}
 }
 
 void FCoreUtilsModule::ShutdownModule()

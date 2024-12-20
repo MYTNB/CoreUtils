@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AssetTypeCategories.h"
 #include "Modules/ModuleManager.h"
 
 #include "Common/CoreMacros.h"
@@ -16,6 +17,9 @@
 
 class FCoreUtilsModule : public IModuleInterface
 {
+public:
+	static EAssetTypeCategories::Type ProjectAssetCategory;
+	
 public:
 
 	/** IModuleInterface implementation */
