@@ -218,6 +218,19 @@ struct FGameMath : public FMath
 		const FVector RelativeVector = (ToVector - FromVector * Dot).GetSafeNormal();
 		return (FromVector * Cos(Omega) + RelativeVector * Sin(Omega)).GetSafeNormal();
 	}
+
+	// Direction and PanelNormal is Normalized
+	inline static FVector LineToPanel(const FVector& LineOrigin, const FVector& Direction, const FVector& PanelOrigin, const FVector& PanelNormal)
+	{
+		const float Dot = (PanelOrigin - LineOrigin).Dot(PanelNormal);
+		const float DotNormal = Direction.Dot(PanelNormal);
+		if (Abs(DotNormal) < SMALL_NUMBER)
+		{
+			return LineOrigin;
+		}
+
+		return LineOrigin + Direction * (Dot / DotNormal);
+	}
 #pragma endregion Vector
 
 #pragma region Rotation

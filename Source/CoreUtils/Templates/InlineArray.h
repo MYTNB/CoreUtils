@@ -14,7 +14,7 @@ class TInlineArray
 public:
 	TInlineArray() {}
 	TInlineArray(const std::initializer_list<TValue>& InElements);
-	TInlineArray(TValue&& Args...);
+	TInlineArray(const TValue& InDefault);
 	
 	FORCEINLINE TValue& operator[](std::size_t Index) { ensureAlways(IsValidIndex(Index)); return Array[Index]; }
 
@@ -22,6 +22,7 @@ public:
 
 	FORCEINLINE std::size_t Num() const { return ArrayNum; }
 	FORCEINLINE std::size_t Capacity() const { return SIZE; }
+	FORCEINLINE TValue* GetData() { return &Array[0]; }
 	
 	bool Contains(const TValue& InValue);
 	bool Append(const TValue& InValue);
@@ -37,6 +38,20 @@ private:
 	TValue Array[SIZE] {TValue()};
 };
 
+template<typename TValue>
+struct ArrayRef
+{
+	int32 Size;
+	TValue* Array;
+
+	template <std::size_t SIZE>
+	ArrayRef(TInlineArray<TValue, SIZE>& InArray)
+	{
+		Size = InArray.Num();
+		Array = InArray.GetData();
+	}
+};
+
 template <typename TValue, std::size_t SIZE>
 TInlineArray<TValue, SIZE>::TInlineArray(const std::initializer_list<TValue>& InElements)
 {
@@ -47,14 +62,12 @@ TInlineArray<TValue, SIZE>::TInlineArray(const std::initializer_list<TValue>& In
 		Array[Index] = MoveTemp(InElements[Index]);
 	}
 }
-
 template <typename TValue, std::size_t SIZE>
-TInlineArray<TValue, SIZE>::TInlineArray(TValue&& Args, ...)
+TInlineArray<TValue, SIZE>::TInlineArray(const TValue& InDefault)
 {
-	ensureAlwaysMsgf(sizeof...(Args) <= SIZE, TEXT("InElements num is out of range!"));
-	for (auto Value : Args)
+	for (int Index = 0; Index < SIZE; ++ Index)
 	{
-		Array[++ ArrayNum] = Value;
+		Array[ArrayNum ++] = InDefault;
 	}
 }
 

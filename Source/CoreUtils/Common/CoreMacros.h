@@ -20,6 +20,8 @@
 #define DOT_PRODUCT_165 (-0.966F)
 #define DOT_PRODUCT_180 (-1.F)
 
+#define FPS_60_DELTA_TIME 0.01666667F
+
 #pragma endregion
 
 #pragma region Printer
@@ -62,6 +64,18 @@
 // Error
 #define LOG_ERROR(CategoryName, Format, ...) \
 	PRINT_OBJ_LOG(CategoryName, Error, this, Format, ##__VA_ARGS__)
+// Obj Info
+#define LOG_INFO_OBJ(Object, CategoryName, Format, ...) \
+	PRINT_OBJ_LOG(CategoryName, Log, Object, Format, ##__VA_ARGS__)
+// Obj Debug
+#define LOG_DEBUG_OBJ(Object, CategoryName, Format, ...) \
+	PRINT_OBJ_LOG(CategoryName, Display, Object, Format, ##__VA_ARGS__)
+// Obj Warning
+#define LOG_WARNING_OBJ(Object, CategoryName, Format, ...) \
+	PRINT_OBJ_LOG(CategoryName, Warning, Object, Format, ##__VA_ARGS__)
+// Obj Error
+#define LOG_ERROR_OBJ(Object, CategoryName, Format, ...) \
+	PRINT_OBJ_LOG(CategoryName, Error, Object, Format, ##__VA_ARGS__)
 // EX Info
 #define LOG_INFO_EX(Printer, CategoryName, Format, ...) \
 	PRINT_LOG(CategoryName, Log, Printer, Format, ##__VA_ARGS__)
